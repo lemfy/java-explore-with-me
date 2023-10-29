@@ -7,5 +7,6 @@ import ru.practicum.model.Endpoint;
 @Mapper(componentModel = "spring")
 public interface EndpointMapper {
     EndpointDto toDto(Endpoint endpointHit);
+
     Endpoint fromDto(EndpointDto endpointDto);
 }
