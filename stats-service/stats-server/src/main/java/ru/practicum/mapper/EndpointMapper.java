@@ -4,7 +4,8 @@ import org.mapstruct.Mapper;
 import ru.practicum.EndpointDto;
 import ru.practicum.model.Endpoint;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface EndpointMapper {
-    Endpoint fromDto(EndpointDto endpointHitDto);
+    EndpointDto toDto(Endpoint endpointHit);
+    Endpoint fromDto(EndpointDto endpointDto);
 }

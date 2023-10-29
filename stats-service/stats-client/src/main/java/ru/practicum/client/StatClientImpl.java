@@ -32,13 +32,13 @@ public class StatClientImpl implements StatClient {
     @Override
     public ResponseEntity<String> saveHit(String app, String uri, String ipAddress, LocalDateTime timestamp) {
         prepareHeader();
-        EndpointDto endpointHitDto = EndpointDto.builder()
+        EndpointDto endpointDto = EndpointDto.builder()
                 .app(app)
                 .uri(uri)
                 .ipAddress(ipAddress)
                 .timestamp(timestamp)
                 .build();
-        HttpEntity<EndpointDto> entity = new HttpEntity<>(endpointHitDto, headers);
+        HttpEntity<EndpointDto> entity = new HttpEntity<>(endpointDto, headers);
 
         return this.restTemplate.postForEntity(
                 serverURL + "/hit",

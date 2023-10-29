@@ -17,11 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatService {
     private final StatRepository statRepository;
-    private final EndpointMapper endpointHitMapper;
+    private final EndpointMapper endpointMapper;
 
     public ResponseEntity<String> saveHit(EndpointDto endpointDto) {
-        Endpoint endpointHit = endpointHitMapper.fromDto(endpointDto);
-        statRepository.save(endpointHit);
+        Endpoint endpoint = endpointMapper.fromDto(endpointDto);
+        statRepository.save(endpoint);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
