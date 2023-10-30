@@ -2,6 +2,7 @@ package ru.practicum.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -50,18 +51,19 @@ public class StatClientImpl implements StatClient {
 
     @SneakyThrows
     @Override
-    public ResponseEntity<List<StatsDto>> getStats(LocalDateTime start, LocalDateTime end, List<String> uris) {
+    public ResponseEntity<List<StatsDto>> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         prepareHeader();
 
         Map<String, Object> params = new HashMap<>();
         params.put("start", start);
         params.put("end", end);
         params.put("uris", uris);
+        params.put("unique", unique);
 
         HttpEntity request = new HttpEntity(headers);
 
         return restTemplate.exchange(
-                serverURL + "/stats?start={start}&end={end}&uris={uris}",
+                serverURL + "/stats?start={start}&end={end}&uris={uris}&unique={unique}",
                 HttpMethod.GET,
                 request,
                 new ParameterizedTypeReference<>() {
