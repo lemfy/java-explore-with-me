@@ -2,7 +2,6 @@ package ru.practicum.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
