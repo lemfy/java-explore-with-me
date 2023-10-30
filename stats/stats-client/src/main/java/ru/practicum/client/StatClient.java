@@ -7,8 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface StatClient {
+    ResponseEntity<String> saveHit(String app, String uri, String ip, LocalDateTime timestamp);
 
     ResponseEntity<List<StatsDto>> getStats(LocalDateTime start, LocalDateTime end, List<String> uris);
-
-    ResponseEntity<String> saveHit(String app, String uri, String ipAddress, LocalDateTime timestamp);
 }

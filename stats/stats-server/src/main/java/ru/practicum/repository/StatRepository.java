@@ -12,44 +12,45 @@ import java.util.List;
 
 @Repository
 public interface StatRepository extends JpaRepository<Endpoint, Integer> {
-    @Query("SELECT NEW ru.practicum.StatsDto(h.app, h.uri, COUNT(h.ipAddress)) " +
+
+    @Query("SELECT NEW ru.practicum.StatsDto(h.app, h.uri, COUNT(h.ip)) " +
             "FROM Endpoint h " +
             "WHERE (h.timestamp BETWEEN :start AND :end) " +
             "GROUP BY h.uri, h.app " +
-            "ORDER BY COUNT(h.ipAddress) DESC")
+            "ORDER BY COUNT(h.ip) DESC")
     List<StatsDto> getStatsBetweenStartAndEndGroupByUri(
             LocalDateTime start,
             LocalDateTime end
     );
 
-    @Query("SELECT NEW ru.practicum.StatsDto(h.app, h.uri, COUNT(DISTINCT(h.ipAddress))) " +
+    @Query("SELECT NEW ru.practicum.StatsDto(h.app, h.uri, COUNT(DISTINCT(h.ip))) " +
             "FROM Endpoint h " +
             "WHERE (h.timestamp BETWEEN :start AND :end) " +
             "GROUP BY h.uri, h.app " +
-            "ORDER BY COUNT(DISTINCT(h.ipAddress)) DESC")
+            "ORDER BY COUNT(DISTINCT(h.ip)) DESC")
     List<StatsDto> getUniqueStatsBetweenStartAndEndGroupByUri(
             LocalDateTime start,
             LocalDateTime end
     );
 
-    @Query("SELECT NEW ru.practicum.StatsDto(h.app, h.uri, COUNT(h.ipAddress)) " +
+    @Query("SELECT NEW ru.practicum.StatsDto(h.app, h.uri, COUNT(h.ip)) " +
             "FROM Endpoint h " +
             "WHERE h.uri IN :uris " +
             "AND (h.timestamp BETWEEN :start AND :end) " +
             "GROUP BY h.uri, h.app " +
-            "ORDER BY COUNT(h.ipAddress) DESC")
+            "ORDER BY COUNT(h.ip) DESC")
     List<StatsDto> getStatsByUrisAndBetweenStartAndEndGroupByUri(
             LocalDateTime start,
             LocalDateTime end,
             Collection<String> uris
     );
 
-    @Query("SELECT NEW ru.practicum.StatsDto(h.app, h.uri, COUNT(DISTINCT(h.ipAddress))) " +
+    @Query("SELECT NEW ru.practicum.StatsDto(h.app, h.uri, COUNT(DISTINCT(h.ip))) " +
             "FROM Endpoint h " +
             "WHERE h.uri IN :uris " +
             "AND (h.timestamp BETWEEN :start AND :end) " +
             "GROUP BY h.uri, h.app " +
-            "ORDER BY COUNT(DISTINCT(h.ipAddress)) DESC")
+            "ORDER BY COUNT(DISTINCT(h.ip)) DESC")
     List<StatsDto> getUniqueStatsByUrisAndBetweenStartAndEndGroupByUri(
             LocalDateTime start,
             LocalDateTime end,

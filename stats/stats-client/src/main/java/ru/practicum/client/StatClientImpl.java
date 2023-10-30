@@ -30,14 +30,16 @@ public class StatClientImpl implements StatClient {
     }
 
     @Override
-    public ResponseEntity<String> saveHit(String app, String uri, String ipAddress, LocalDateTime timestamp) {
+    public ResponseEntity<String> saveHit(String app, String uri, String ip, LocalDateTime timestamp) {
         prepareHeader();
+
         EndpointDto endpointDto = EndpointDto.builder()
                 .app(app)
                 .uri(uri)
-                .ipAddress(ipAddress)
+                .ip(ip)
                 .timestamp(timestamp)
                 .build();
+
         HttpEntity<EndpointDto> entity = new HttpEntity<>(endpointDto, headers);
 
         return this.restTemplate.postForEntity(
@@ -50,11 +52,14 @@ public class StatClientImpl implements StatClient {
     @Override
     public ResponseEntity<List<StatsDto>> getStats(LocalDateTime start, LocalDateTime end, List<String> uris) {
         prepareHeader();
+
         Map<String, Object> params = new HashMap<>();
         params.put("start", start);
         params.put("end", end);
         params.put("uris", uris);
-        var request = new HttpEntity(headers);
+
+        HttpEntity request = new HttpEntity(headers);
+
         return restTemplate.exchange(
                 serverURL + "/stats?start={start}&end={end}&uris={uris}",
                 HttpMethod.GET,

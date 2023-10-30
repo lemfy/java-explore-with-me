@@ -1,14 +1,12 @@
 package ru.practicum.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,11 +15,10 @@ import java.time.LocalDateTime;
 public class Endpoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    int id;
     String app;
     String uri;
-    String ipAddress;
-
+    String ip;
     @Column(name = "created")
     LocalDateTime timestamp;
 }

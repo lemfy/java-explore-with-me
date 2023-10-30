@@ -22,12 +22,15 @@ public class StatService {
     public ResponseEntity<String> saveHit(EndpointDto endpointDto) {
         Endpoint endpoint = endpointMapper.fromDto(endpointDto);
         statRepository.save(endpoint);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+
+        return new ResponseEntity<>("Информация сохранена", HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<StatsDto>> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean isUnique) {
         List<StatsDto> stats;
+
         if (uris != null && !uris.isEmpty()) {
+
             if (isUnique) {
                 stats = statRepository.getUniqueStatsByUrisAndBetweenStartAndEndGroupByUri(start, end, uris);
             } else {
@@ -40,6 +43,7 @@ public class StatService {
                 stats = statRepository.getStatsBetweenStartAndEndGroupByUri(start, end);
             }
         }
+
         return new ResponseEntity<>(stats, HttpStatus.OK);
     }
 }
