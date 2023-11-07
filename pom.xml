@@ -32,6 +32,21 @@
 		<module>ewm-service</module>
 		<module>stats</module>
 	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>${querydsl.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>
+		</dependency>
+	</dependencies>
 	<build>
 		<pluginManagement>
 			<plugins>
