@@ -24,13 +24,6 @@ public class EventControllerPublic {
     private final StatClient statClient;
     private final String statAppName = "ewm-main-service";
 
-    @GetMapping("/{eventId}")
-    public EventFullDto getEvent(@PathVariable int eventId, HttpServletRequest request) {
-        EventFullDto result = eventService.publicFindById(eventId);
-        statClient.saveHit(statAppName, request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now());
-        return result;
-    }
-
     @GetMapping
     public List<EventShortDto> search(@RequestParam(required = false) String text,
                                       @RequestParam(required = false) List<@Valid @Positive Integer> categories,
@@ -42,9 +35,16 @@ public class EventControllerPublic {
                                       @RequestParam(defaultValue = "0") int from,
                                       @RequestParam(defaultValue = "10") int size,
                                       HttpServletRequest request) {
-        List<EventShortDto> result = eventService.findByUser(text, paid, onlyAvailable, categories, rangeStart, rangeEnd, sort, from, size);
+        List<EventShortDto> result = eventService.searchByUser(text, paid, onlyAvailable,
+                categories, rangeStart, rangeEnd, sort, from, size);
         statClient.saveHit(statAppName, request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now());
+        return result;
+    }
 
+    @GetMapping("/{eventId}")
+    public EventFullDto getEvent(@PathVariable int eventId, HttpServletRequest request) {
+        EventFullDto result = eventService.publicFindById(eventId);
+        statClient.saveHit(statAppName, request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now());
         return result;
     }
 }

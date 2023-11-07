@@ -5,9 +5,9 @@ import ru.practicum.categories.service.CategoryServiceHelper;
 import ru.practicum.events.dto.*;
 import ru.practicum.events.model.Event;
 
-@Mapper(componentModel = "spring", uses = {CategoryServiceHelper.class}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", uses = {CategoryServiceHelper.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface EventMapper {
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "longitude", source = "location.lon")
     @Mapping(target = "latitude", source = "location.lat")

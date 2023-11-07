@@ -24,10 +24,22 @@ public class EventControllerPrivate {
     private final EventService eventService;
     private final RequestService requestService;
 
+    @GetMapping
+    public List<EventShortDto> getByUserId(@PathVariable int userId,
+                                           @RequestParam(defaultValue = "0") int from,
+                                           @RequestParam(defaultValue = "10") int size) {
+        return eventService.getByUserId(userId, from, size);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EventFullDto save(@PathVariable int userId, @Validated @RequestBody NewEventDto newEventDto) {
         return eventService.save(userId, newEventDto);
+    }
+
+    @GetMapping("/{eventId}")
+    public EventFullDto getByEventId(@PathVariable int userId, @PathVariable int eventId) {
+        return eventService.getByEventId(userId, eventId);
     }
 
     @PatchMapping("/{eventId}")
@@ -36,26 +48,14 @@ public class EventControllerPrivate {
         return eventService.update(userId, eventId, updateEventUserRequest);
     }
 
+    @GetMapping("/{eventId}/requests")
+    public List<ParticipationRequestDto> getRequests(@PathVariable int userId, @PathVariable int eventId) {
+        return requestService.getByEventId(userId, eventId);
+    }
+
     @PatchMapping("/{eventId}/requests")
     public EventRequestStatusUpdateResult updateRequests(@PathVariable int userId, @PathVariable int eventId,
                                                          @RequestBody EventRequestStatusUpdateRequest updateRequest) {
         return requestService.updateAllByEvent(userId, eventId, updateRequest);
-    }
-
-    @GetMapping
-    public List<EventShortDto> getByUserId(@PathVariable int userId,
-                                           @RequestParam(defaultValue = "0") int from,
-                                           @RequestParam(defaultValue = "10") int size) {
-        return eventService.getByUserId(userId, from, size);
-    }
-
-    @GetMapping("/{eventId}")
-    public EventFullDto getByEventId(@PathVariable int userId, @PathVariable int eventId) {
-        return eventService.getByEventId(userId, eventId);
-    }
-
-    @GetMapping("/{eventId}/requests")
-    public List<ParticipationRequestDto> getRequests(@PathVariable int userId, @PathVariable int eventId) {
-        return requestService.getByEventId(userId, eventId);
     }
 }
