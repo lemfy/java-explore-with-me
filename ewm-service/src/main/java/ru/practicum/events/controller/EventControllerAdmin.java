@@ -2,18 +2,12 @@ package ru.practicum.events.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.utils.DateTimeService;
+import org.springframework.web.bind.annotation.*;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.UpdateEventAdminRequest;
 import ru.practicum.events.enums.EventState;
 import ru.practicum.events.service.EventService;
+import ru.practicum.utils.DateTimeService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -25,6 +19,11 @@ import java.util.List;
 public class EventControllerAdmin {
     private final EventService eventService;
 
+    @PatchMapping("/{eventId}")
+    public EventFullDto setStatus(@PathVariable int eventId, @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
+        return eventService.updateByAdmin(eventId, updateEventAdminRequest);
+    }
+
     @GetMapping
     public List<EventFullDto> search(@RequestParam(required = false) List<Integer> users,
                                      @RequestParam(required = false) List<EventState> states,
@@ -33,11 +32,6 @@ public class EventControllerAdmin {
                                      @RequestParam(required = false) @DateTimeFormat(pattern = DateTimeService.DATE_TIME_FORMAT) LocalDateTime rangeEnd,
                                      @RequestParam(defaultValue = "0") int from,
                                      @RequestParam(defaultValue = "10") int size) {
-        return eventService.searchByAdmin(users, states, categories, rangeStart, rangeEnd, from, size);
-    }
-
-    @PatchMapping("/{eventId}")
-    public EventFullDto setStatus(@PathVariable int eventId, @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
-        return eventService.updateByAdmin(eventId, updateEventAdminRequest);
+        return eventService.findByAdmin(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 }

@@ -18,28 +18,21 @@ import java.time.LocalDateTime;
 @Setter
 @RequiredArgsConstructor
 public class NewEventDto {
-
-    @Size(min = 3, max = 120, message = "Field: title. Error: must not from {min} to {max}. Value: ${validatedValue}")
+    @Size(min = 3, max = 100)
     private String title;
-
     @NotBlank
-    @Size(min = 20, max = 2000, message = "Field: annotation. Error: must not from {min} to {max}. Value: ${validatedValue}")
+    @Size(min = 20, max = 1000)
     private String annotation;
-
     @NotBlank
-    @Size(min = 20, max = 7000, message = "Field: description. Error: must not from {min} to {max}. Value: ${validatedValue}")
+    @Size(min = 20, max = 5000)
     private String description;
-
     @Positive
     private int category;
-
-    @DateBefore(hours = 2, message = "Field: eventDate. Error: must be after {hours} hours. Value: ${validatedValue}")
+    @DateBefore(hours = 2)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeService.DATE_TIME_FORMAT)
     private LocalDateTime eventDate;
-
     @NotNull
     private Location location;
-
     private Boolean paid;
     private Boolean requestModeration;
     private int participantLimit;

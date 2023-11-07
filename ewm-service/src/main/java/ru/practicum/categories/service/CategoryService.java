@@ -3,15 +3,15 @@ package ru.practicum.categories.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.practicum.categories.mapper.CategoryMapper;
 import ru.practicum.categories.dto.CategoryDto;
+import ru.practicum.categories.mapper.CategoryMapper;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.repository.CategoryRepository;
-import ru.practicum.utils.PaginationService;
-import ru.practicum.exceptions.ConflictException;
-import ru.practicum.exceptions.DataNotFoundException;
 import ru.practicum.events.model.Event;
 import ru.practicum.events.repository.EventRepository;
+import ru.practicum.exceptions.ConflictException;
+import ru.practicum.exceptions.DataNotFoundException;
+import ru.practicum.utils.PaginationService;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,41 +46,35 @@ public class CategoryService {
         }
     }
 
-    private Category partialUpdate(int categoryId, CategoryDto categoryDto) {
+    private Category fractionalUpdate(int categoryId, CategoryDto categoryDto) {
         Category category = findById(categoryId);
         categoryMapper.update(categoryDto, category);
-
         return category;
     }
 
     public CategoryDto save(CategoryDto categoryDto) {
         checkName(0, categoryDto.getName());
         Category newCategory = categoryRepository.save(categoryMapper.fromDto(categoryDto));
-
         return prepareDto(newCategory);
     }
 
     public CategoryDto update(int catId, CategoryDto categoryDto) {
         checkName(catId, categoryDto.getName());
-        Category category = categoryRepository.save(partialUpdate(catId, categoryDto));
-
+        Category category = categoryRepository.save(fractionalUpdate(catId, categoryDto));
         return prepareDto(category);
     }
 
     public void remove(int catId) {
-        Category deletedCategory = findById(catId);
+        Category categories = findById(catId);
         List<Event> events = eventRepository.findAllByCategoryId(catId);
-
         if (!events.isEmpty()) {
             throw new ConflictException("The category is not empty");
         }
-
-        categoryRepository.delete(deletedCategory);
+        categoryRepository.delete(categories);
     }
 
     public List<CategoryDto> getAll(int from, int size) {
         Pageable pageable = paginationService.getPageable(from, size);
-
         return categoryRepository.findAll(pageable)
                 .stream()
                 .map(categoryMapper::toDto)

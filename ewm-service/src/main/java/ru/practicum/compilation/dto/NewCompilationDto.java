@@ -12,9 +12,8 @@ import java.util.Set;
 @Getter
 @RequiredArgsConstructor
 public class NewCompilationDto {
-
-    @NotBlank(message = "Field: title. Error: must not be blank. Value: ${validatedValue}")
-    @Size(min = 2, max = 50, message = "Field: title. Error: must not from {min} to {max}. Value: ${validatedValue}")
+    @NotBlank
+    @Size(min = 2, max = 50)
     private String title;
     private Set<Integer> events;
     private boolean pinned;

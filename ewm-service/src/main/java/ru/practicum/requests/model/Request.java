@@ -19,17 +19,13 @@ public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @Enumerated(EnumType.STRING)
     private UpdateRequestStatus status;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User requester;
-
     private LocalDateTime created;
 }

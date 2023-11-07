@@ -2,22 +2,18 @@ package ru.practicum.compilation.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.compilation.mapper.CompilationMapper;
 import ru.practicum.compilation.dto.CompilationDto;
 import ru.practicum.compilation.dto.NewCompilationDto;
 import ru.practicum.compilation.dto.UpdateCompilationRequest;
+import ru.practicum.compilation.mapper.CompilationMapper;
 import ru.practicum.compilation.model.Compilation;
 import ru.practicum.compilation.repository.CompilationRepository;
-import ru.practicum.exceptions.DataNotFoundException;
 import ru.practicum.events.mapper.EventMapper;
 import ru.practicum.events.model.Event;
 import ru.practicum.events.service.EventService;
+import ru.practicum.exceptions.DataNotFoundException;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,75 +25,65 @@ public class CompilationService {
     private final EventMapper eventMapper;
 
     public CompilationDto prepareDto(Compilation compilation) {
-        CompilationDto compilationDto = compilationMapper.toDto(compilation);
+        CompilationDto compiledDto = compilationMapper.toDto(compilation);
         Set<Event> events = compilation.getEvents();
-
         if (events != null && !events.isEmpty()) {
-            compilationDto.setEvents(compilation.getEvents().stream().map(eventMapper::toShortDto).collect(Collectors.toList()));
+            compiledDto.setEvents(compilation.getEvents().stream().map(eventMapper::toShortDto).collect(Collectors.toList()));
         } else {
-            compilationDto.setEvents(new ArrayList<>());
+            compiledDto.setEvents(new ArrayList<>());
         }
-
-        return compilationDto;
+        return compiledDto;
     }
 
     public Compilation prepareDao(NewCompilationDto newCompilationDto) {
-        Compilation compilation = compilationMapper.fromDto(newCompilationDto);
+        Compilation compiled = compilationMapper.fromDto(newCompilationDto);
         Set<Integer> eventIds = newCompilationDto.getEvents();
-
         if (eventIds != null && !eventIds.isEmpty()) {
-            compilation.setEvents(eventService.findAllById(eventIds));
+            compiled.setEvents(eventService.findAllById(eventIds));
         } else {
-            compilation.setEvents(new HashSet<>());
+            compiled.setEvents(new HashSet<>());
         }
-
-        return compilation;
+        return compiled;
     }
 
     public Compilation findById(int compilationId) {
-        Optional<Compilation> compilation = compilationRepository.findById(compilationId);
+        Optional<Compilation> compiled = compilationRepository.findById(compilationId);
 
-        if (compilation.isEmpty()) {
+        if (compiled.isEmpty()) {
             throw new DataNotFoundException(Compilation.class.getName(), compilationId);
         }
-
-        return compilation.get();
+        return compiled.get();
     }
 
     public CompilationDto getById(int compId) {
-        Compilation result = findById(compId);
-
-        return prepareDto(result);
+        Compilation find = findById(compId);
+        return prepareDto(find);
     }
 
     public List<CompilationDto> getAll(Boolean pinned, int from, int size) {
         List<Compilation> result = compilationRepository.findAllByPinned(pinned, from, size);
-
         return result.stream()
                 .map(this::prepareDto)
                 .collect(Collectors.toList());
     }
 
     public CompilationDto save(NewCompilationDto newCompilationDto) {
-        Compilation compilation = prepareDao(newCompilationDto);
-
-        return prepareDto(compilationRepository.save(compilation));
+        Compilation compiled = prepareDao(newCompilationDto);
+        return prepareDto(compilationRepository.save(compiled));
     }
 
     public CompilationDto update(int compId, UpdateCompilationRequest updateCompilationRequest) {
-        Compilation compilation = findById(compId);
-        compilationMapper.update(updateCompilationRequest, compilation);
+        Compilation compiled = findById(compId);
+        compilationMapper.update(updateCompilationRequest, compiled);
         Set<Integer> eventIds = updateCompilationRequest.getEvents();
-
         if (eventIds != null && !eventIds.isEmpty()) {
-            compilation.setEvents(eventService.findAllById(eventIds));
+            compiled.setEvents(eventService.findAllById(eventIds));
         }
-
-        return prepareDto(compilationRepository.save(compilation));
+        return prepareDto(compilationRepository.save(compiled));
     }
 
     public void delete(int compId) {
-        Compilation compilation = findById(compId);
-        compilationRepository.delete(compilation);
+        Compilation compiled = findById(compId);
+        compilationRepository.delete(compiled);
     }
 }

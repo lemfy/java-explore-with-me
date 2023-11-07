@@ -15,7 +15,6 @@ public class ApiException extends RuntimeException {
         this.status = status;
     }
 
-
     public Error getApiError() {
         return Error.builder()
                 .message(this.getMessage())

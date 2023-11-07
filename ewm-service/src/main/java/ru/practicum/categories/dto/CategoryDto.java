@@ -16,8 +16,7 @@ import javax.validation.constraints.Size;
 public class CategoryDto {
     @Transient
     private int id;
-
-    @NotBlank(message = "Field: name. Error: must not be blank. Value: ${validatedValue}")
-    @Size(min = 2, max = 50, message = "Field: name. Error: must not from {min} to {max}. Value: ${validatedValue}")
+    @NotBlank
+    @Size(min = 2, max = 50)
     private String name;
 }

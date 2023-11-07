@@ -13,13 +13,11 @@ import javax.validation.constraints.Size;
 @RequiredArgsConstructor
 public class UserDto {
     int id;
-
-    @NotBlank(message = "Field: name. Error: must not be blank. Value: ${validatedValue}")
-    @Size(min = 2, max = 250, message = "Field: name. Error: must not from {min} to {max}. Value: ${validatedValue}")
+    @NotBlank
+    @Size(min = 2, max = 250)
     String name;
-
-    @NotBlank(message = "Field: email. Error: must not be blank. Value: ${validatedValue}")
-    @Size(min = 6, max = 254, message = "Field: email. Error: must not from {min} to {max}. Value: ${validatedValue}")
-    @Email(message = "Field: name. Error: email address is invalid. Value: ${validatedValue}")
+    @NotBlank
+    @Size(min = 6, max = 254)
+    @Email
     String email;
 }

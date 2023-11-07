@@ -15,11 +15,9 @@ public class CategoryServiceHelper {
 
     public Category findById(int id) {
         Optional<Category> category = categoryRepository.findById(id);
-
         if (category.isEmpty()) {
             throw new DataNotFoundException(Category.class.getName(), id);
         }
-
         return category.get();
     }
 }

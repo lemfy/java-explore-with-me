@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ru.practicum.categories.dto.CategoryDto;
-import ru.practicum.utils.DateTimeService;
 import ru.practicum.users.dto.UserShortDto;
+import ru.practicum.utils.DateTimeService;
 
 import java.time.LocalDateTime;
 
@@ -18,10 +18,8 @@ public class EventShortDto {
     private String title;
     private String description;
     private String annotation;
-
     @JsonFormat(pattern = DateTimeService.DATE_TIME_FORMAT)
     private LocalDateTime eventDate;
-
     private CategoryDto category;
     private UserShortDto initiator;
     private boolean paid;

@@ -26,10 +26,8 @@ public class Compilation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String title;
     private Boolean pinned;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "compilation_events",
             joinColumns = @JoinColumn(name = "compilation_id"),

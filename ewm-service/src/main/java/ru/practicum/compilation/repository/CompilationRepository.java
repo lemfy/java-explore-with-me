@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.compilation.model.Compilation;
 
 @Repository
-public interface CompilationRepository extends JpaRepository<Compilation, Integer>, QuerydslPredicateExecutor<Compilation>, CompilationRepositoryCustom {
+public interface CompilationRepository extends JpaRepository<Compilation, Integer>,
+        QuerydslPredicateExecutor<Compilation>, CompilationRepositoryCustom {
 }

@@ -21,6 +21,13 @@ public class UserService {
     private final UserMapper userMapper;
     private final PaginationService paginationService;
 
+    public UserDto save(UserDto userDto) {
+        checkName(userDto.getName());
+        User newUser = userRepository.save(prepareDao(userDto));
+
+        return prepareDto(newUser);
+    }
+
     private UserDto prepareDto(User user) {
         return userMapper.toDto(user);
     }
@@ -39,13 +46,6 @@ public class UserService {
         return user.get();
     }
 
-    private void checkName(String name) {
-        Optional<User> user = userRepository.findByName(name);
-        if (user.isPresent()) {
-            throw new ConflictException(String.format("User name '%s' already exist", name));
-        }
-    }
-
     public List<UserDto> findAllByUser(List<Integer> ids, Integer from, Integer size) {
         List<User> result;
 
@@ -60,19 +60,19 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDto save(UserDto userDto) {
-        checkName(userDto.getName());
-        User newUser = userRepository.save(prepareDao(userDto));
+    public User checkUserById(int id) {
+        return findById(id);
+    }
 
-        return prepareDto(newUser);
+    private void checkName(String name) {
+        Optional<User> user = userRepository.findByName(name);
+        if (user.isPresent()) {
+            throw new ConflictException(String.format("User name '%s' already exist", name));
+        }
     }
 
     public void delete(int userId) {
         User deletedUser = findById(userId);
         userRepository.delete(deletedUser);
-    }
-
-    public User checkUserById(int id) {
-        return findById(id);
     }
 }

@@ -7,7 +7,8 @@ import ru.practicum.categories.service.CategoryServiceHelper;
 import ru.practicum.requests.dto.ParticipationRequestDto;
 import ru.practicum.requests.model.Request;
 
-@Mapper(componentModel = "spring", uses = {CategoryServiceHelper.class}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", uses = {CategoryServiceHelper.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface RequestMapper {
     @Mapping(target = "event", source = "event.id")
     @Mapping(target = "requester", source = "requester.id")

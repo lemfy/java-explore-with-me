@@ -22,15 +22,15 @@ import java.util.List;
 public class RequestController {
     private final RequestService requestService;
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ParticipationRequestDto save(@PathVariable @Valid int userId, @RequestParam @Valid int eventId) {
+        return requestService.save(userId, eventId);
+    }
+
     @GetMapping
     public List<ParticipationRequestDto> get(@PathVariable int userId) {
         return requestService.getByUserId(userId);
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ParticipationRequestDto add(@PathVariable @Valid int userId, @RequestParam @Valid int eventId) {
-        return requestService.add(userId, eventId);
     }
 
     @PatchMapping("/{requestId}/cancel")

@@ -13,11 +13,9 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ParticipationRequestDto {
     private int id;
-
-    @Positive(message = "Field: event. Error: must not be null. Value: ${validatedValue}")
+    @Positive
     private int event;
-
-    @Positive(message = "Field: requester. Error: must not be null. Value: ${validatedValue}")
+    @Positive
     private int requester;
     private UpdateRequestStatus status;
     private LocalDateTime created;

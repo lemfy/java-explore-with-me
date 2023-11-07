@@ -11,8 +11,7 @@ import java.util.Set;
 @Getter
 @RequiredArgsConstructor
 public class UpdateCompilationRequest {
-
-    @Size(min = 2, max = 50, message = "Field: title. Error: must not from {min} to {max}. Value: ${validatedValue}")
+    @Size(min = 2, max = 50)
     private String title;
     private boolean pinned;
     private Set<Integer> events;

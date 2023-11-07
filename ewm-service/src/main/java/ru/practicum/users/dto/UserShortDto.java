@@ -10,8 +10,7 @@ import javax.validation.constraints.Size;
 @Setter
 public class UserShortDto {
     private int id;
-
-    @NotBlank(message = "Field: name. Error: must be not blank. Value: ${validatedValue}")
-    @Size(min = 2, max = 250, message = "Field: name. Error: must not from {min} to {max}. Value: ${validatedValue}")
+    @NotBlank
+    @Size(min = 2, max = 250)
     private String name;
 }

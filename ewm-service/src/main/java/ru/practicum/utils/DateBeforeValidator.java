@@ -5,7 +5,6 @@ import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDateTime;
 
 public class DateBeforeValidator implements ConstraintValidator<DateBefore, LocalDateTime> {
-    private String message;
     private int hours;
     private int days;
 
@@ -13,7 +12,7 @@ public class DateBeforeValidator implements ConstraintValidator<DateBefore, Loca
     public void initialize(DateBefore dateBefore) {
         this.hours = dateBefore.hours();
         this.days = dateBefore.days();
-        this.message = dateBefore.message();
+        String message = dateBefore.message();
     }
 
     public boolean isValid(LocalDateTime date, ConstraintValidatorContext cxt) {

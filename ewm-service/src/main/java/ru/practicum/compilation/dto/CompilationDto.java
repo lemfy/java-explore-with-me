@@ -14,11 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CompilationDto {
     private int id;
-
-    @NotBlank(message = "Field: title. Error: must not be blank. Value: ${validatedValue}")
+    @NotBlank
     @Size(min = 2, max = 50, message = "Field: title. Error: must not from {min} to {max}. Value: ${validatedValue}")
     private String title;
-
     private List<EventShortDto> events;
     private boolean pinned;
 }
