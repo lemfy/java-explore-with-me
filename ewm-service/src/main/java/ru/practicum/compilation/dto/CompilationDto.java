@@ -1,0 +1,22 @@
+package ru.practicum.compilation.dto;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import ru.practicum.events.dto.EventShortDto;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.List;
+
+@Setter
+@Getter
+@RequiredArgsConstructor
+public class CompilationDto {
+    private int id;
+    @NotBlank
+    @Size(min = 2, max = 50, message = "Field: title. Error: must not from {min} to {max}. Value: ${validatedValue}")
+    private String title;
+    private List<EventShortDto> events;
+    private boolean pinned;
+}
