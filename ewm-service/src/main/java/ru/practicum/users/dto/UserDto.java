@@ -12,13 +12,13 @@ import javax.validation.constraints.Size;
 @Getter
 @RequiredArgsConstructor
 public class UserDto {
-    int id;
+    private int id;
     @NotBlank
     @Size(min = 2, max = 250)
-    String name;
+    private String name;
     @NotBlank
     @Size(min = 6, max = 254)
     @Email
-    String email;
+    private String email;
     private double rating;
 }

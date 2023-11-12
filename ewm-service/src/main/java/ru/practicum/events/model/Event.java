@@ -40,7 +40,8 @@ public class Event {
     private Boolean requestModeration;
     @Column(name = "participant_limit")
     private Integer participantLimit;
-    @Formula(value = "(SELECT COUNT(r.id) FROM requests r " +
+    @Formula(value = "(SELECT COUNT(r.id) " +
+            "FROM requests r " +
             "WHERE r.event_id = id " +
             "AND r.status = 'CONFIRMED' " +
             "GROUP BY r.id)")

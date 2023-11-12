@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "event_likes")
-
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -52,11 +52,9 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
 
     @Override
     public List<Event> findAllByUser(String text, Boolean onlyAvailable, Boolean paid, List<Integer> categoryIds,
-                                     LocalDateTime rangeStart, LocalDateTime rangeEnd,
-                                     EventSort sort, int from, int size) {
+                                     LocalDateTime rangeStart, LocalDateTime rangeEnd, EventSort sort, int from, int size) {
         QEvent event = QEvent.event;
         BooleanExpression where = Expressions.asBoolean(true).isTrue();
-
         if (text != null && !text.isBlank()) {
             where = where.and(event.annotation.containsIgnoreCase(text).or(event.description.containsIgnoreCase(text)));
         }
@@ -86,6 +84,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
                 orderBy = event.eventDate.desc();
             }
         }
+
         return new JPAQuery<Event>(entityManager)
                 .from(event)
                 .where(where)
