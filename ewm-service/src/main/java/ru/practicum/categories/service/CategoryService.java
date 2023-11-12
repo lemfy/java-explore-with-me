@@ -31,11 +31,9 @@ public class CategoryService {
 
     private Category findById(int categoryId) {
         Optional<Category> category = categoryRepository.findById(categoryId);
-
         if (category.isEmpty()) {
             throw new DataNotFoundException(Category.class.getName(), categoryId);
         }
-
         return category.get();
     }
 

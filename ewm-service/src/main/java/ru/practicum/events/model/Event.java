@@ -40,11 +40,23 @@ public class Event {
     private Boolean requestModeration;
     @Column(name = "participant_limit")
     private Integer participantLimit;
-    @Formula(value = "(SELECT COUNT(r.id) FROM requests r " +
+    @Formula(value = "(SELECT COUNT(r.id) " +
+            "FROM requests r " +
             "WHERE r.event_id = id " +
             "AND r.status = 'CONFIRMED' " +
             "GROUP BY r.id)")
     private Integer confirmedRequests;
+    @Formula(value = "(SELECT COUNT(l.id) " +
+            "FROM event_likes l " +
+            "WHERE l.event_id = id " +
+            "AND l.like_type = 'LIKE')")
+    private Integer likes;
+    @Formula(value = "(SELECT COUNT(l.id) " +
+            "FROM event_likes l " +
+            "WHERE l.event_id = id " +
+            "AND l.like_type = 'DISLIKE')")
+    private Integer dislikes;
+    private Double rating;
     @Enumerated(EnumType.STRING)
     private EventState state;
     @Column(name = "created_on")
