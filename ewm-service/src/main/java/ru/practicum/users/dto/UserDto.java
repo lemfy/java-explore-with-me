@@ -20,4 +20,5 @@ public class UserDto {
     @Size(min = 6, max = 254)
     @Email
     String email;
+    private double rating;
 }

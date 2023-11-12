@@ -2,12 +2,15 @@ package ru.practicum.events.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.client.StatClient;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
 import ru.practicum.events.enums.EventSort;
 import ru.practicum.events.service.EventService;
+import ru.practicum.rating.enums.RatingType;
+import ru.practicum.rating.service.RatingService;
 import ru.practicum.utils.DateTimeService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventControllerPublic {
     private final EventService eventService;
+    private final RatingService ratingService;
     private final StatClient statClient;
     private final String statAppName = "ewm-main-service";
 
@@ -46,5 +50,17 @@ public class EventControllerPublic {
         EventFullDto result = eventService.publicFindById(eventId);
         statClient.saveHit(statAppName, request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now());
         return result;
+    }
+
+    @PostMapping("/{eventId}/likes/{userId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addLike(@PathVariable int eventId, @PathVariable int userId, @RequestParam @Valid RatingType type) {
+        ratingService.addLike(eventId, userId, type);
+    }
+
+    @DeleteMapping("/{eventId}/likes/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeLike(@PathVariable int eventId, @PathVariable int userId) {
+        ratingService.removeLike(eventId, userId);
     }
 }

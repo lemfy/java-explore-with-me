@@ -45,6 +45,17 @@ public class Event {
             "AND r.status = 'CONFIRMED' " +
             "GROUP BY r.id)")
     private Integer confirmedRequests;
+    @Formula(value = "(SELECT COUNT(l.id) " +
+            "FROM event_likes l " +
+            "WHERE l.event_id = id " +
+            "AND l.like_type = 'LIKE')")
+    private Integer likes;
+    @Formula(value = "(SELECT COUNT(l.id) " +
+            "FROM event_likes l " +
+            "WHERE l.event_id = id " +
+            "AND l.like_type = 'DISLIKE')")
+    private Integer dislikes;
+    private Double rating;
     @Enumerated(EnumType.STRING)
     private EventState state;
     @Column(name = "created_on")

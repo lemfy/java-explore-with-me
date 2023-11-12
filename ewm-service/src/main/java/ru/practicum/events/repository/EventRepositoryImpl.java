@@ -79,15 +79,19 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
             where = where.and(event.participantLimit.subtract(event.confirmedRequests).gt(0));
         }
         OrderSpecifier orderBy = event.id.asc();
-        if (sort == EventSort.EVENT_DATE) {
-            orderBy = event.eventDate.desc();
+        if (sort != null) {
+            if (sort.equals(EventSort.RATING)) {
+                orderBy = event.rating.desc().nullsLast();
+            } else if (sort.equals(EventSort.EVENT_DATE)) {
+                orderBy = event.eventDate.desc();
+            }
         }
         return new JPAQuery<Event>(entityManager)
                 .from(event)
                 .where(where)
                 .offset(from)
-                .orderBy(orderBy)
                 .limit(size)
+                .orderBy(orderBy)
                 .stream()
                 .collect(Collectors.toList());
     }
